@@ -1,0 +1,23 @@
+{
+  "datum" : "2018-05-25",
+  "kilometer_gefahren" : "25",
+  "zweck_der_fahrt" : "Aufsperrung",
+  "bemerkung" : "Türe zugefallen",
+  "lenker" : {
+    "vorname" : "Alexander",
+    "nachname" : "Tampier"
+  },
+  "fahrtbeginn" : {
+    "uhrzeit" : "10:05:33",
+    "kilometerstand" : "11934"
+    },
+  "fahrtende" : {
+    "uhrzeit" : "10:55:29",
+    "kilometerstand" : "11959"
+  },
+  "adresse" : {
+    "street_address": "1st Street SE",
+    "city": "Washington",
+    "state": "DC"
+  }
+}
