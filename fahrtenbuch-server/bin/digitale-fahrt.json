@@ -1,8 +1,9 @@
 {
   "datum" : "2018-05-25",
   "kilometer_gefahren" : "25",
-  "zweck_der_fahrt" : "Aufsperrung",
+  "zweck_der_fahrt" : ["Aufsperrung", "Montage", "Besichtigung", "Behörden"],
   "bemerkung" : "Türe zugefallen",
+  "fahrzeug_kennzeichen": "W83838473",
   "lenker" : {
     "vorname" : "Alexander",
     "nachname" : "Tampier"
@@ -15,9 +16,16 @@
     "uhrzeit" : "10:55:29",
     "kilometerstand" : "11959"
   },
-  "adresse" : {
-    "street_address": "1st Street SE",
-    "city": "Washington",
-    "state": "DC"
-  }
+  "adressen": [
+    {
+      "strasse": "1st Street SE",
+      "ort": "Washington",
+      "plz": "DC"
+    },
+    {
+      "strasse": "1st Street SE",
+      "ort": "Washington",
+      "plz": "DC"
+    }
+  ],
 }
