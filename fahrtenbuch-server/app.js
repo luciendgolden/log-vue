@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/log-entries', routes);
+app.use('/', routes);
 
 /*
  * Database Connection

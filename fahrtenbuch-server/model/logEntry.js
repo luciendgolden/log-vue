@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const logEntrySchema = mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   created: {
     type: Date,
     default: Date.now,

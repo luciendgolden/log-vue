@@ -7,9 +7,10 @@ const router = express.Router();
 router.get('/drivers', (req, res) => {
   Driver.find({}).exec((error, drivers) => {
     if (error || !drivers) {
-      res.render('error', {});
+      console.error(error);
+      res.send(500);
     } else {
-      res.render('drivers', { drivers });
+      res.json({ drivers });
     }
   });
 });
@@ -22,19 +23,25 @@ router.post('/driver', (req, res) => {
   const driver = new Driver(req.body);
   driver.save((error, result) => {
     if (error || !result) {
-      res.render('error', {});
+      console.error(error);
+      res.send(500);
     } else {
       res.status(201).json(result);
     }
   });
 });
 
-router.get('/', (req, res) => {
-  LogEntry.find({}, (error, logEntries) => {
+/**
+ * find all log entries
+ * @type {[type]}
+ */
+router.get('/logEntries', (req, res) => {
+  LogEntry.find({}).exec((error, logEntries) => {
     if (error || !logEntries) {
-      res.render('error', {});
+      console.error(error);
+      res.send(500);
     } else {
-      res.render('logEntries', { logEntries });
+      res.json({ logEntries });
     }
   });
 });
@@ -45,14 +52,15 @@ router.get('/', (req, res) => {
 * @param  {[type]} res [description]
 * @return {[type]}     [description]
 */
-router.get('/:id', (req, res) => {
+router.get('/logEntries/:id', (req, res) => {
   LogEntry.findOne({
     _id: req.params.id,
   }, (error, logEntry) => {
     if (error || !logEntry) {
-      res.render('error', {});
+      console.error(error);
+      res.send(500);
     } else {
-      res.render('logEntry', { logEntry });
+      res.json({ logEntry });
     }
   });
 });
@@ -61,11 +69,12 @@ router.get('/:id', (req, res) => {
  * creates a new logEntry
  * @type {LogEntry}
  */
-router.post('/', (req, res) => {
+router.post('/logEntry', (req, res) => {
   const logEntry = new LogEntry(req.body);
   logEntry.save((error, result) => {
     if (error || !result) {
-      res.render('error', {});
+      console.error(error);
+      res.send(500);
     } else {
       res.status(201).json(result);
     }
