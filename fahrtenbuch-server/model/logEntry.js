@@ -12,7 +12,7 @@ const logEntrySchema = mongoose.Schema({
   },
   note: String,
   kennzeichen: String,
-  author: {
+  driver: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Driver',
   },
@@ -31,14 +31,13 @@ const logEntrySchema = mongoose.Schema({
     },
     kilometerstand: Number,
   },
-  addresses: [
+  address:
     {
       street: String,
       city: String,
       state: String,
       zip: Number,
     },
-  ],
 });
 
 const LogEntry = mongoose.model('LogEntry', logEntrySchema);
