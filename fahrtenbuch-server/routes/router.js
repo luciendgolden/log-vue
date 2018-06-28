@@ -1,13 +1,26 @@
 const express = require('express');
+const path = require('path');
+
+const logEntryOperations = require('../helper/logEntryOperations');
+const findFromDb = require('../helper/findAll');
+const generatePdfService = require('../helper/generateReport');
+
+
 const Driver = require('../model/driver');
 const LogEntry = require('../model/logEntry');
-const path = require('path');
 
 const router = express.Router();
 
+// View for EJS on client side (server-side-rendered)
+router.get('/', (req, res) => {
+  logEntryOperations.findAll((result) => {
+    res.render('pages/logbook', result);
+  });
+});
+
 router.get('/driver', (req, res) => {
   Driver.find({}).exec((error, drivers) => {
-    if (error) return res.send(500, { error });
+    if (error) { return res.send(500, { error }); }
     return res.json({ drivers });
   });
 });
@@ -20,7 +33,7 @@ router.get('/driver/:id', (req, res) => {
   Driver.findOne({
     _id: req.params.id,
   }, (error, driver) => {
-    if (error) return res.send(500, { error });
+    if (error) { return res.send(500, { error }); }
     return res.json({ driver });
   });
 });
@@ -32,7 +45,7 @@ router.get('/driver/:id', (req, res) => {
 router.post('/driver', (req, res) => {
   const driver = new Driver(req.body);
   driver.save((error, result) => {
-    if (error) return res.send(500, { error });
+    if (error) { return res.send(500, { error }); }
     return res.status(201).json(result);
   });
 });
@@ -43,7 +56,7 @@ router.post('/driver', (req, res) => {
  */
 router.put('/driver/:id', (req, res) => {
   Driver.findByIdAndUpdate(req.params.id, req.body, (error) => {
-    if (error) return res.send(500, { error });
+    if (error) { return res.send(500, { error }); }
     return res.send({ success: true });
   });
 });
@@ -56,11 +69,10 @@ router.delete('/driver/:id', (req, res) => {
   Driver.remove({
     _id: req.params.id,
   }, (error) => {
-    if (error) return res.send(500, { error });
+    if (error) { return res.send(500, { error }); }
     return res.send({ success: true });
   });
 });
-
 
 /**
  * find all log entries
@@ -68,7 +80,7 @@ router.delete('/driver/:id', (req, res) => {
  */
 router.get('/logEntry', (req, res) => {
   LogEntry.find({}).sort({ created: 'desc' }).exec((error, logEntries) => {
-    if (error) return res.send(500, { error });
+    if (error) { return res.send(500, { error }); }
     return res.json({ logEntries });
   });
 });
@@ -83,7 +95,7 @@ router.get('/logEntry/:id', (req, res) => {
   LogEntry.findOne({
     _id: req.params.id,
   }, (error, logEntry) => {
-    if (error) return res.send(500, { error });
+    if (error) { return res.send(500, { error }); }
     return res.json({ logEntry });
   });
 });
@@ -95,7 +107,7 @@ router.get('/logEntry/:id', (req, res) => {
 router.post('/logEntry', (req, res) => {
   const logEntry = new LogEntry(req.body);
   logEntry.save((error, result) => {
-    if (error) return res.send(500, { error });
+    if (error) { return res.send(500, { error }); }
     return res.status(201).json(result);
   });
 });
@@ -106,7 +118,7 @@ router.post('/logEntry', (req, res) => {
  */
 router.put('/logEntry/:id', (req, res) => {
   LogEntry.findByIdAndUpdate(req.params.id, req.body, (error) => {
-    if (error) return res.send(500, { error });
+    if (error) { return res.send(500, { error }); }
     return res.send({ success: true });
   });
 });
@@ -119,10 +131,16 @@ router.delete('/logEntry/:id', (req, res) => {
   LogEntry.remove({
     _id: req.params.id,
   }, (error) => {
-    if (error) return res.send(500, { error });
+    if (error) { return res.send(500, { error }); }
     return res.send({ success: true });
   });
 });
+
+/*
+function generatePDF() {
+
+}
+*/
 
 /**
  * download pdf file
@@ -131,17 +149,33 @@ router.delete('/logEntry/:id', (req, res) => {
  * @param  {Function} next [description]
  * @return {[type]}        [description]
  */
-router.get('/pdf', (res, next) => {
-  
-  const filePath = path.join(__dirname, 'files', 'logbook.pdf');
+router.get('/pdf', (req, res) => {
+  findFromDb()
+    .then(logEntries => {
+      return generatePdfService(logEntries);
+    })
+    .then((pathToSend) => {
+      res.setHeader('Content-disposition', "'inline; filename=report.pdf'");
+      res.setHeader('Content-Type', 'application/pdf');
+      res.sendFile(pathToSend);
+    })
+    .catch((err) => {
+      console.error(`Error: ${err}`);
+    });
+
+  /*
+  const filePath = path.join(path.dirname('../'), 'files', 'logbook.pdf');
+
+  generatePDF();
 
   res.download(filePath, (err) => {
-    if (!err) return; // file sent
-    if (err && err.status !== 404) next(err); // non-404 error
+    if (!err) { return; } // file sent
+    if (err && err.status !== 404) { next(err); } // non-404 error
     // file for download not found
     res.statusCode = 404;
     res.send('Cant find that file, sorry!');
   });
+  */
 });
 
 module.exports = router;

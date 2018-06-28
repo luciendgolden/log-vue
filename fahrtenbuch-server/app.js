@@ -13,6 +13,8 @@ const app = express();
 mongoose.connect('mongodb://localhost:27017/logbook');
 const db = mongoose.connection;
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
