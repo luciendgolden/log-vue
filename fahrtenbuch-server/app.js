@@ -1,39 +1,41 @@
 const express = require('express');
-// Create HTTP errors for Express, Koa, Connect, etc. with ease.
 const createError = require('http-errors');
-/**
- * Parse incoming request bodies in a middleware before your handlers
- * available under the req.body property.
- */
 const bodyParser = require('body-parser');
-/**
- * Backend has to be able to interact with the frontend
- * enables to build an API that can be reached from any
- * browser in the world and not only through the JavaScript files
- *
- * Cross-origin resource sharing (CORS) allows AJAX requests to skip the
- * Same-origin policy and access resources from remote hosts.
- */
 const cors = require('cors');
-// HTTP request logger middleware for node.js
-const logger = require('morgan');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+
+const logger = require('./config/logger');
+const routes = require('./routes/router');
 
 const app = express();
 
-app.use(logger('dev'));
+mongoose.connect('mongodb://localhost:27017/logbook');
+const db = mongoose.connection;
+
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/vehicles', (req, res) => {
-  res.send([{
-    id: 1,
-    title: 'Hello World!',
-    description: 'fahrtenbuch-server',
-  }]);
+app.use('/', routes);
+
+/*
+ * Database Connection
+ */
+db.on('error', (err) => {
+  logger.error(`Error while connecting to DB: ${err.message}`);
+});
+db.once('open', () => {
+  logger.info('DB connected successfully!');
 });
 
+/*
+ * Error handling
+ */
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404, 'Site not found'));
@@ -46,6 +48,8 @@ app.use((err, req, res) => {
   res.render('error');
 });
 
-app.listen(process.env.PORT || 8081);
+app.listen(process.env.PORT || 3000, () => {
+  logger.info(`Example app listening on port ${process.env.PORT || 3000}`);
+});
 
 module.exports = app;

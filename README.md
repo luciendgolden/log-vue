@@ -1,6 +1,6 @@
 # Digitales Fahrtenbuch - Aufgabenbeschreibung
 
-Ihr Kunde ist ein mittelständisches Unternehmen mit mehreren Standorten. Jeder Standort verfu ̈gt u ̈ber mehrere Fahrzeuge welche von unterschiedlichen Mitarbeitern gefahren werden. Die Dokumentation von Fahrten erfolgt aktuell handschriftlich und soll durch Ihr Projekt von einer digitalisierte Lösung abgelöst werden.
+Ihr Kunde ist ein mittelständisches Unternehmen mit mehreren Standorten. Jeder Standort verfügt über mehrere Fahrzeuge welche von unterschiedlichen Mitarbeitern gefahren werden. Die Dokumentation von Fahrten erfolgt aktuell handschriftlich und soll durch Ihr Projekt von einer digitalisierte Lösung abgelöst werden.
 
 Aus Sicht der Unternehmensleitung soll es möglich sein statistische Auswertungen zur Auslastung der Fahrzeuge zu bekommen. Ausgewertet werden sollen relevante Parameter wie zum Beispiel Auslastung der Fahrzeuge, Prozentuelle Auslastung der Fahrzeuge pro Standort innerhalb selbstdefinierter Arbeitszeiten, welcher Mitarbeiter ist wie viel gefahren (Anzahl Fahrten, KM), Wie viele KM wurden in einem bestimmten Zeitraum für welche Zwecke (Kategorie) gefahren.
 
@@ -8,12 +8,12 @@ Diese Auswertung soll in mindestens zwei unterschiedlichen Formaten (Export als 
 
 ## Inhalte
 
-Das Fahrtenbuch enthält für jede Fahrt folgende Informationen: 
+Das Fahrtenbuch enthält für jede Fahrt folgende Informationen:
 
 * Datum
 * Uhrzeit Fahrtbeginn und Fahrtende
 * Name Fahrzeuglenker
-* Kilometerstand Fahrtantritt und Fahrtende 
+* Kilometerstand Fahrtantritt und Fahrtende
 * Gefahrene Kilometer
 * Zweck der Fahrt (Auswahl aus mindestens vier von Ihnen definierten Kategorien)
 * Bemerkungen/Zusatzinfos

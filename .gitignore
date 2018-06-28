@@ -1,5 +1,9 @@
 # Created by https://www.gitignore.io/api/osx,mean,node,sass
 
+# tern
+
+.tern-project
+
 ### MEAN ###
 # MEAN Stack Base
 ### MEAN.Anglar Stack ###

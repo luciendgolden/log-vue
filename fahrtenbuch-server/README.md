@@ -4,7 +4,7 @@ Der Server des Fahrtenbuch bildet das Backend mithilfe von `Node.js`,`Express` u
 
 ## Getting Started
 
-Das Backend kann mit dem Befehl `node app.js` gestartet werden und mithilfe einer beliebigen **REST-API** aufgerufen werden. 
+Das Backend kann mit dem Befehl `node app.js` gestartet werden und mithilfe einer beliebigen **REST-API** aufgerufen werden.
 
 ### Read
 
