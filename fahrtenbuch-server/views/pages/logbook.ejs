@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Logbook PDF</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Logbook</h1>
+    <hr>
+    <div class="row">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Erstellt am</th>
+            <th scope="col">Fahrtbeginn kilometerstand</th>
+            <th scope="col">Fahrtbeginn uhrzeit</th>
+            <th scope="col">Fahrtende kilometerstand</th>
+            <th scope="col">Fahrtende uhrzeit</th>
+            <th scope="col">Adresse</th>
+            <th scope="col">Zweck</th>
+            <th scope="col">Anmerkung</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% for(var i=0; i < logEntries.length; i++) { %>
+              <tr>
+                <th scope="row"><%= i %></th>
+                <td><%= logEntries[i].created %></td>
+                <td><%= logEntries[i].fahrt_beginn.kilometerstand %></td>
+                <td><%= logEntries[i].fahrt_beginn.uhrzeit %></td>
+                <td><%= logEntries[i].fahrt_ende.kilometerstand %></td>
+                <td><%= logEntries[i].fahrt_ende.uhrzeit %></td>
+                <td>
+                  <%= logEntries[i].address.street %>
+                  <%= logEntries[i].address.city %>
+                  <%= logEntries[i].address.state %>
+                  <%= logEntries[i].address.zip %>
+                </td>
+                <td><%= logEntries[i].purpose %></td>
+                <td><%= logEntries[i].note %></td>
+              </tr>
+            <% }; %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>
