@@ -1,7 +1,4 @@
 const express = require('express');
-const path = require('path');
-
-const logEntryOperations = require('../helper/logEntryOperations');
 const findFromDb = require('../helper/findAll');
 const generatePdfService = require('../helper/generateReport');
 
@@ -13,9 +10,13 @@ const router = express.Router();
 
 // View for EJS on client side (server-side-rendered)
 router.get('/', (req, res) => {
-  logEntryOperations.findAll((result) => {
-    res.render('pages/logbook', result);
-  });
+  findFromDb()
+    .then((logEntries) => {
+      res.render('pages/logbook', logEntries);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
 
 router.get('/driver', (req, res) => {
@@ -136,12 +137,6 @@ router.delete('/logEntry/:id', (req, res) => {
   });
 });
 
-/*
-function generatePDF() {
-
-}
-*/
-
 /**
  * download pdf file
  * @param  {[type]}   req  [description]
@@ -151,31 +146,15 @@ function generatePDF() {
  */
 router.get('/pdf', (req, res) => {
   findFromDb()
-    .then(logEntries => {
-      return generatePdfService(logEntries);
-    })
+    .then(logEntries => generatePdfService(logEntries))
     .then((pathToSend) => {
-      res.setHeader('Content-disposition', "'inline; filename=report.pdf'");
+      res.setHeader('Content-disposition', 'inline; filename=report.pdf');
       res.setHeader('Content-Type', 'application/pdf');
       res.sendFile(pathToSend);
     })
     .catch((err) => {
-      console.error(`Error: ${err}`);
+      res.send(err);
     });
-
-  /*
-  const filePath = path.join(path.dirname('../'), 'files', 'logbook.pdf');
-
-  generatePDF();
-
-  res.download(filePath, (err) => {
-    if (!err) { return; } // file sent
-    if (err && err.status !== 404) { next(err); } // non-404 error
-    // file for download not found
-    res.statusCode = 404;
-    res.send('Cant find that file, sorry!');
-  });
-  */
 });
 
 module.exports = router;
